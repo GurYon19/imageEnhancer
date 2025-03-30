@@ -4,10 +4,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
-
+import coil.compose.AsyncImage
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
@@ -47,15 +48,15 @@ fun ImageEditorScreen(
             )
 
             // Image display placeholder
-            Box(
+            AsyncImage(
+                model = imageUri,
+                contentDescription = "Captured image",
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(300.dp)
                     .padding(16.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text("Image preview will be displayed here\nImage URI: $imageUri")
-            }
+                contentScale = ContentScale.Fit
+            )
 
             // Analysis results placeholder
             Card(
