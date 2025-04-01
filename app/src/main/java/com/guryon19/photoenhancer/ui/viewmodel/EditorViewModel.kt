@@ -1,4 +1,5 @@
 package com.guryon19.photoenhancer.ui.viewmodel
+import com.guryon19.photoenhancer.util.image.MobileNetAnalyzer
 
 import android.annotation.SuppressLint
 import android.net.Uri.parse
@@ -10,6 +11,7 @@ import android.net.Uri
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+
 import androidx.lifecycle.viewModelScope
 import com.guryon19.photoenhancer.domain.model.ImageMetrics
 import kotlinx.coroutines.Dispatchers
@@ -51,29 +53,20 @@ class EditorViewModel : ViewModel() {
      * @param imageUri String representation of the image URI to analyze
      */
     fun analyzeImage(context: android.content.Context, imageUri: String) {
-        // Launch a coroutine in the ViewModel scope
         viewModelScope.launch {
-            // Update loading state to show progress indicator
             _isAnalyzing.value = true
 
             try {
-                // Load the bitmap from URI - moves I/O operation to background
-                val bitmap = loadBitmapFromUri(context, imageUri)
-
-                // Perform the analysis in the background thread to avoid UI freezing
+                // Perform analysis in the background
                 val metrics = withContext(Dispatchers.Default) {
-                    // This is a placeholder - will be replaced with actual wavelet transform algorithm
-                    calculateImageMetrics(bitmap)
+                    MobileNetAnalyzer.analyzeImage(context, imageUri)
                 }
 
-                // Update UI state with the analysis results
+                // Update UI state with results
                 _imageMetrics.value = metrics
             } catch (e: Exception) {
-                // Handle errors gracefully
                 e.printStackTrace()
-                // Could update error state here for error UI display
             } finally {
-                // Always reset loading state when done, even if an error occurred
                 _isAnalyzing.value = false
             }
         }
@@ -174,3 +167,8 @@ class EditorViewModel : ViewModel() {
         )
     }
 }
+
+
+/**
+ * Analyzes the image at the given URI using MobileNetV3 and wavelet transform
+ */

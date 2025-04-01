@@ -84,9 +84,12 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.3.1")
     implementation("androidx.camera:camera-view:1.3.1")
 
-    // PyTorch Mobile
-    implementation("org.pytorch:pytorch_android:1.13.1")
-    implementation("org.pytorch:pytorch_android_torchvision:1.13.1")
+    // PyTorch Mobile with GPU support
+    implementation("org.pytorch:pytorch_android:2.1.0")
+    implementation("org.pytorch:pytorch_android_torchvision:2.1.0")
+
+    // Vulkan support for GPU acceleration
+    // implementation("org.pytorch:pytorch_android_vulkan_runtime:1.12.2")
 
     // Coil for image loading
     implementation("io.coil-kt:coil-compose:2.5.0")
